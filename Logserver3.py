@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import gzip
 import ConfigUtils
-import TCPstreams2
+import TCPstreams5 as tcp
 import Logger
 import threading
 import time
@@ -123,8 +123,8 @@ def main(CONFIGF):
     IDcounter = 0
     OpenCounter = 0
     try:
-        Server = TCPstreams2.server(Config['Host'],int(Config['Port']))
-        MainLogger.log("")
+        Server = tcp.newServer(Config['Host'],int(Config['Port']))
+        MainLogger.log("Start Server")
     except Exception as E:
         MainLogger.log("Failed to Launch Server")
         return
@@ -156,7 +156,7 @@ def main(CONFIGF):
                 checkdead()
 
         #We now Accept a Connection
-        NewCon = Server.accept(Server)
+        NewCon = tcp.serverCon(Server)
         MainLogger.log("Accepted Client " + str(IDcounter))
 
         #Start the Thread / Client Handler
